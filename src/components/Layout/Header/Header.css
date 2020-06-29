@@ -1,0 +1,56 @@
+.header-container {
+    margin: 30px 50px;
+    
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+}
+
+.company-name {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    
+}
+
+.challenge-name {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.hr {
+    border-top: 2px solid #000000;
+}
+
+.hepsiburada-text {
+    font-size: 30px;
+    color: #cccccc;
+    font-weight: bold;
+}
+
+.com-text {
+    font-size: 30px;
+    color: #000000;
+    font-weight: bold;
+}
+
+.link-text {
+    font-size: 30px;
+    color: #000000;
+    font-weight: bold;
+}
+
+.vote-text {
+    font-size: 30px;
+    color: #000000;
+    font-weight: 200;
+}
+
+.challenge-text {
+    font-size: 30px;
+    color: #000000;
+    font-weight: 300;
+}

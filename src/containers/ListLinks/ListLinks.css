@@ -116,3 +116,16 @@
 .empty-list {
     text-align: center;
 }
+
+.pagination {
+    justify-content: center;
+}
+
+.page-item.active .page-link {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+}
+
+.page-link {
+    color: #cccccc !important;
+}

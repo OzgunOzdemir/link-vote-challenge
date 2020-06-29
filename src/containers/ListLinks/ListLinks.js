@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './ListLinks.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Pagination } from 'react-bootstrap';
 import { getItem, setItem } from '../../services/index.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,9 @@ class ListLinks extends Component {
     super(props)
 
     this.state = {
-      linkList: []
+      linkList: [],
+      currentList: [],
+      active: 1,
     }
   }
 
@@ -20,7 +22,8 @@ class ListLinks extends Component {
       data = data.reverse()
     }
     this.setState({
-      linkList: data
+      linkList: data,
+      currentList: data && data.length > 4 ? data.slice(0, 5) : data
     })
   }
 
@@ -29,30 +32,74 @@ class ListLinks extends Component {
   }
 
   upVoteHandler = (i) => {
-    this.state.linkList[i].points++;
+    this.state.currentList[i].points++;
+    this.state.linkList.map(item => {
+      if (item.linkUrl === this.state.currentList[i].url) {
+        item.points++;
+      }
+    })
     setItem(this.state.linkList);
     this.setState({
       linkList: this.state.linkList
     })
-    this.sortHandler(this.state.linkList)
+    this.sortHandler(this.state.linkList, this.state.currentList)
   }
 
   downVoteHandler = (i) => {
-    this.state.linkList[i].points--;
-    setItem(this.state.linkList);
-    this.setState({
-      linkList: this.state.linkList
-    })
-    this.sortHandler(this.state.linkList)
+    if (this.state.currentList[i].points > 0) {
+      this.state.currentList[i].points--;
+      this.state.linkList.map(item => {
+        if (item.linkUrl === this.state.currentList[i].url) {
+          item.points--;
+        }
+      })
+      setItem(this.state.linkList);
+      this.setState({
+        linkList: this.state.linkList
+      })
+      this.sortHandler(this.state.linkList, this.state.currentList)
+    }
   }
 
-  sortHandler = (data) => {
-    const linkList = data.sort((a, b) => {
+  sortHandler = (linkListParameter, currentListParameter) => {
+    const linkList = linkListParameter.sort((a, b) => {
       return b.points - a.points
     });
-    this.setState({ 
-      linkList: linkList
+    const currentList = currentListParameter.sort((a, b) => {
+      return b.points - a.points
+    });
+    this.setState({
+      linkList: linkList,
+      currentList: currentList
     })
+  }
+
+  pagination = () => {
+    if (this.state.linkList && this.state.linkList.length > 5) {
+      let items = [];
+      const count = (this.state.linkList.length / 5) + 1;
+      for (let number = 1; number < count; number++) {
+        items.push(
+          <Pagination.Item key={number} onClick={() => this.handlerActivePage(number)} active={number === this.state.active}>
+            {number}
+          </Pagination.Item>
+        );
+      }
+      return (
+        <Pagination>{items}</Pagination>
+      )
+    } else {
+      return null
+    }
+  }
+
+  handlerActivePage = (activeNumber) => {
+    let sliceNumberFirst = (activeNumber - 1) * 5;
+    let sliceNumberTwo = sliceNumberFirst + 5;
+    this.setState({
+      active: activeNumber,
+      currentList: this.state.linkList.slice(sliceNumberFirst, sliceNumberTwo)
+    });
   }
 
   render() {
@@ -73,10 +120,9 @@ class ListLinks extends Component {
                 </div>
               </div>
               <hr className="hr" />
-
               {
                 this.state.linkList && this.state.linkList.length > 0 ?
-                  this.state.linkList.map((item, i) =>
+                  this.state.currentList.map((item, i) =>
                     <div className="link-container" key={i}>
                       <div className="point-container">
                         <div className="point-text-container">
@@ -90,13 +136,13 @@ class ListLinks extends Component {
                         </div>
                         <div className="link-url">
                           ({item.linkUrl})
-                  </div>
+                        </div>
                         <div className="vote-container">
                           <div className="up-vote" onClick={() => this.upVoteHandler(i)}>
-                          <FontAwesomeIcon icon={faArrowUp} />&nbsp;Up Vote
+                            <FontAwesomeIcon icon={faArrowUp} />&nbsp;Up Vote
                           </div>
-                          <div className="down-vote"  onClick={() => this.downVoteHandler(i)}>
-                          <FontAwesomeIcon icon={faArrowDown} />&nbsp;Down Vote
+                          <div className="down-vote" onClick={() => this.downVoteHandler(i)}>
+                            <FontAwesomeIcon icon={faArrowDown} />&nbsp;Down Vote
                           </div>
                         </div>
                       </div>
@@ -104,6 +150,9 @@ class ListLinks extends Component {
                   ) :
                   <div className="empty-list"><span>Your link list is empty</span></div>
               }
+              <div className="pagination">
+                {this.pagination()}
+              </div>
             </Col>
             <Col md={3}></Col>
           </Row>

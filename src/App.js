@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import AddLinks from './containers/AddLinks/AddLinks.js';
+import ListLinks from './containers/ListLinks/ListLinks.js';
 
-function App() {
+class App extends Component {
+  render() {
+    return (
+      <Router>
+          <div>
+            <Switch>
+              <Route path="/" exact strict component={ListLinks} />
+              <Route path="/add-link" exact strict component={AddLinks} />
+              <Route component={Error} />
+            </Switch>
+          </div>
+      </Router>
+    );
+  }
+}
+
+const Error = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <h1>This page was not found.</h1>
+  )
 }
 
 export default App;

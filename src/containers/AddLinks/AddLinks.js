@@ -3,6 +3,8 @@ import './AddLinks.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ButtonComponent, InputComponent, AlertComponent } from '../../components/Ui/index.js';
 import { getItem, setItem } from '../../services';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 class AddLinks extends Component {
 
@@ -28,7 +30,7 @@ class AddLinks extends Component {
   }
 
   addLink = () => {
-    const linklist = JSON.parse(getItem());
+    const linklist = getItem();
     if (!linklist) {
       const data = [{
         linkName: this.state.linkName,
@@ -56,8 +58,8 @@ class AddLinks extends Component {
       <div className="content-container">
         <Container>
           <Row>
-            <Col></Col>
-            <Col>
+            <Col md={3}></Col>
+            <Col md={6}>
               {
                 this.state.alert === true ?
                   <div className="alert">
@@ -66,7 +68,9 @@ class AddLinks extends Component {
                   : null
               }
               <div className="back-link">
-                <span className="backlink-text" onClick={() => this.handlerBackLink()}>Return to List</span>
+                <span className="backlink-text" onClick={() => this.handlerBackLink()}>
+                <FontAwesomeIcon icon={faArrowLeft} />&nbsp;Return to List
+                </span>
               </div>
               <div className="form-container">
                 <div className="form-header">
@@ -87,7 +91,7 @@ class AddLinks extends Component {
                 </div>
               </div>
             </Col>
-            <Col></Col>
+            <Col md={3}></Col>
           </Row>
         </Container>
       </div>

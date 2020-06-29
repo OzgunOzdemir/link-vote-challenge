@@ -4,7 +4,7 @@ const setItem = (data) => {
 }
 
 const getItem = () => {
-    const result = localStorage.getItem("LinkList");
+    const result = JSON.parse(localStorage.getItem("LinkList"));
     return result;
 }
 

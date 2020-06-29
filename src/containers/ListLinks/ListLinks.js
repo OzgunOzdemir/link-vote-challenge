@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
+import './ListLinks.css';
 
-function ListLinks() {
-  return (
-    <div>
-      
-    </div>
-  );
+class ListLinks extends Component {
+
+  render() {
+    return (
+      <div className="content-container">
+        List Link page
+      </div>
+    );
+  }
+
 }
 
 export default ListLinks;

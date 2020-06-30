@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './ListLinks.css';
 import { Container, Row, Col, Pagination } from 'react-bootstrap';
 import { getItem, setItem } from '../../services/index.js';
-import { SubmitLinkBox, ListItem } from '../../components/App/index.js'
+import { SubmitLinkBox, ListItem } from '../../components/App/index.js';
+import { DeleteListItemModal } from '../../Modal/index.js'
 
 class ListLinks extends Component {
   constructor(props) {
@@ -12,6 +13,8 @@ class ListLinks extends Component {
       linkList: [],
       currentList: [],
       active: 1,
+      openModal: false,
+      linkName: null
     }
   }
 
@@ -101,9 +104,40 @@ class ListLinks extends Component {
     });
   }
 
+  openModel = (linkName) => {
+    this.setState({ 
+      openModal: true,
+      linkName: linkName
+    })
+  }
+
+  closeModal = () => {
+    this.setState({ 
+      openModal: false
+    })
+  }
+
+  okModal = () => {
+    let data = this.state.linkList
+    for (let i = 0; i < this.state.linkList.length; i++){
+      if(this.state.linkList[i].linkName === this.state.linkName){
+        data.splice(i, 1);
+      }
+    }
+    setItem(data);
+    this.setState({ 
+      openModal: false,
+      linkList: data,
+      currentList: data && data.length > 4 ? data.slice(0, 5) : data
+    })
+    this.handlerActivePage(1)
+  }
+
   render() {
     return (
       <div className="content-container">
+        <DeleteListItemModal show={this.state.openModal} linkName={this.state.linkName}
+        okModal={() => this.okModal()} closeModal={() => this.closeModal()}/>
         <Container>
           <Row>
             <Col md={3}></Col>
@@ -114,7 +148,8 @@ class ListLinks extends Component {
                 this.state.linkList && this.state.linkList.length > 0 ?
                   this.state.currentList.map((item, i) =>
                     <ListItem points={item.points} key={i} linkName={item.linkName} linkUrl={item.linkUrl}
-                      upVoteHandler={() => this.upVoteHandler(i)} downVoteHandler={() => this.downVoteHandler(i)} />
+                      upVoteHandler={() => this.upVoteHandler(i)} downVoteHandler={() => this.downVoteHandler(i)}
+                      openModel={() => this.openModel(item.linkName)} />
                   ) :
                   <div className="empty-list"><span>Your link list is empty</span></div>
               }

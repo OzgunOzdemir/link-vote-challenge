@@ -1,9 +1,9 @@
 import React from 'react';
 import './ListItem.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faArrowDown, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
 
-const ListItem = ({ points, linkName, linkUrl, upVoteHandler, downVoteHandler }) => {
+const ListItem = ({ points, linkName, linkUrl, upVoteHandler, downVoteHandler, openModel }) => {
     return (
         <div className="link-container">
             <div className="point-container">
@@ -27,6 +27,9 @@ const ListItem = ({ points, linkName, linkUrl, upVoteHandler, downVoteHandler })
                         <FontAwesomeIcon icon={faArrowDown} />&nbsp;Down Vote
                           </div>
                 </div>
+            </div>
+            <div className="iconContainer" onClick={() => openModel()}>
+                <FontAwesomeIcon className="faMinusSquareStyle" icon={faMinusSquare} />
             </div>
         </div>
 

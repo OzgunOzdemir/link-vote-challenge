@@ -1,0 +1,55 @@
+.modal-header {
+    background-color: #000000
+}
+
+.modal-title {
+    color: #ffffff;
+}
+
+.close {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+.modal-body {
+    background-color: #adadad;
+}
+
+.modal-content-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content-title {
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+}
+
+.modal-content-linkName {
+    display: flex;
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    justify-content: center;
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.ok-button {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+.cancel-button {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    
+}

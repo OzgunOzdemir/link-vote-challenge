@@ -1,0 +1,44 @@
+.content-container {
+    margin: 20px 0px
+}
+
+.add-link-container {
+    background-color: #adadad40;
+    border: 1px solid #6f6c6c40;
+    padding: 10px;
+    display: flex;
+    cursor: pointer;
+}
+
+.plus-container {
+    display: flex;
+    flex: 1;
+}
+
+.text-container {
+    display: flex;
+    flex: 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.plus-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 12vh;  
+    background-color: #adadad50;
+    border: 1px solid #6f6c6c40;
+    border-radius: 5px;
+}
+
+.plus {
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.submit-text {
+    font-weight: bold;
+    font-size: 20px;
+}

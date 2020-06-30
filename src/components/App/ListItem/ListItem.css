@@ -1,0 +1,81 @@
+.link-container {
+  padding: 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+.link-container:hover {
+  background-color: #adadad40;
+}
+
+.point-container {
+  display: flex;
+  flex: 1;
+}
+
+.point-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 12vh;
+  width: 80%;
+  background-color: #adadad50;
+  border: 1px solid #6f6c6c40;
+  border-radius: 5px;
+}
+
+.points-number {
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.link-detail {
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+}
+
+.link-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.link-url {
+  font-size: 15px;
+  color: #cccccc;
+}
+
+.vote-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.up-vote {
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  font-size: 13px;
+  color: #00000085;
+}
+
+.down-vote {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  font-size: 13px;
+  color: #00000085;
+}
+
+.faMinusSquareStyle {
+  color: #ff0000;
+}
+
+.iconContainer {
+  visibility: hidden;
+}
+
+.link-container:hover .iconContainer {
+  visibility: visible;
+}

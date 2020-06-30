@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import './ListLinks.css';
 import { Container, Row, Col, Pagination } from 'react-bootstrap';
 import { getItem, setItem } from '../../services/index.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { SubmitLinkBox, ListItem } from '../../components/App/index.js';
+import { DeleteListItemModal } from '../../Modal/index.js'
 
 class ListLinks extends Component {
   constructor(props) {
@@ -13,6 +13,8 @@ class ListLinks extends Component {
       linkList: [],
       currentList: [],
       active: 1,
+      openModal: false,
+      linkName: null
     }
   }
 
@@ -38,10 +40,10 @@ class ListLinks extends Component {
         item.points++;
       }
     })
-    setItem(this.state.linkList);
     this.setState({
       linkList: this.state.linkList
     })
+    setItem(this.state.linkList);
     this.sortHandler(this.state.linkList, this.state.currentList)
   }
 
@@ -102,51 +104,52 @@ class ListLinks extends Component {
     });
   }
 
+  openModel = (linkName) => {
+    this.setState({ 
+      openModal: true,
+      linkName: linkName
+    })
+  }
+
+  closeModal = () => {
+    this.setState({ 
+      openModal: false
+    })
+  }
+
+  okModal = () => {
+    let data = this.state.linkList
+    for (let i = 0; i < this.state.linkList.length; i++){
+      if(this.state.linkList[i].linkName === this.state.linkName){
+        data.splice(i, 1);
+      }
+    }
+    setItem(data);
+    this.setState({ 
+      openModal: false,
+      linkList: data,
+      currentList: data && data.length > 4 ? data.slice(0, 5) : data
+    })
+    this.handlerActivePage(1)
+  }
+
   render() {
     return (
       <div className="content-container">
+        <DeleteListItemModal show={this.state.openModal} linkName={this.state.linkName}
+        okModal={() => this.okModal()} closeModal={() => this.closeModal()}/>
         <Container>
           <Row>
             <Col md={3}></Col>
             <Col md={6}>
-              <div className="add-link-container" onClick={() => this.handlerLink()}>
-                <div className="plus-container">
-                  <div className="plus-icon-container">
-                    <span className="plus">+</span>
-                  </div>
-                </div>
-                <div className="text-container">
-                  <span className="submit-text">SUBMIT A LINK</span>
-                </div>
-              </div>
+              <SubmitLinkBox text="SUBMIT A LINK" onClick={() => this.handlerLink()} />
               <hr className="hr" />
               {
                 this.state.linkList && this.state.linkList.length > 0 ?
                   this.state.currentList.map((item, i) =>
-                    <div className="link-container" key={i}>
-                      <div className="point-container">
-                        <div className="point-text-container">
-                          <span className="points-number">{item.points}</span>
-                          <span className="points-text">POINTS</span>
-                        </div>
-                      </div>
-                      <div className="link-detail">
-                        <div className="link-name">
-                          <span>{item.linkName}</span>
-                        </div>
-                        <div className="link-url">
-                          ({item.linkUrl})
-                        </div>
-                        <div className="vote-container">
-                          <div className="up-vote" onClick={() => this.upVoteHandler(i)}>
-                            <FontAwesomeIcon icon={faArrowUp} />&nbsp;Up Vote
-                          </div>
-                          <div className="down-vote" onClick={() => this.downVoteHandler(i)}>
-                            <FontAwesomeIcon icon={faArrowDown} />&nbsp;Down Vote
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <ListItem points={item.points} key={i} linkName={item.linkName} linkUrl={item.linkUrl}
+                      upVoteHandler={() => this.upVoteHandler(i)} downVoteHandler={() => this.downVoteHandler(i)}
+                      openModel={() => this.openModel(item.linkName)} />
                   ) :
                   <div className="empty-list"><span>Your link list is empty</span></div>
               }

@@ -47,11 +47,23 @@ class AddLinks extends Component {
       linklist.push(data);
       setItem(linklist)
     }
-    this.setState({ alert: true })
+    this.setState({ 
+      alert: true
+     })
     setTimeout(() => {
       this.setState({ alert: false })
-    }, 3000)
+    }, 1000)
   }
+
+  componentWillUnmount = () => {
+    this.setState({ 
+      linkName: null,
+      linkUrl: null,
+      points: null,
+      alert: false
+    })
+  }
+  
 
   render() {
     return (

@@ -37,10 +37,10 @@ class ListLinks extends Component {
         item.points++;
       }
     })
-    setItem(this.state.linkList);
     this.setState({
       linkList: this.state.linkList
     })
+    setItem(this.state.linkList);
     this.sortHandler(this.state.linkList, this.state.currentList)
   }
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Layout.css';
 import { Header } from '../../components/Layout/index.js'
 
 class Layout extends Component {

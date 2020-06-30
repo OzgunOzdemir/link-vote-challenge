@@ -179,7 +179,7 @@ class ListLinks extends Component {
 
   render() {
     return (
-      <div className="content-container">
+      <div className="content-container" data-test="list-link-page">
         <DeleteListItemModal show={this.state.openModal} linkName={this.state.linkName}
           okModal={() => this.okModal()} closeModal={() => this.closeModal()} />
         <Container>

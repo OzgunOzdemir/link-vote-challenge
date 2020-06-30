@@ -67,14 +67,14 @@ class AddLinks extends Component {
 
   render() {
     return (
-      <div className="content-container">
+      <div className="content-container" data-test="add-link-page">
         <Container>
           <Row>
             <Col md={3}></Col>
             <Col md={6}>
               {
                 this.state.alert === true ?
-                  <div>
+                  <div data-test="alert">
                     <AlertComponent linkName={this.state.linkName} linkStatus="added." />
                   </div>
                   : <div className="visibility">
@@ -90,17 +90,17 @@ class AddLinks extends Component {
                 <div className="form-header">
                   <span className="addnewlink-text">Add New Link</span>
                 </div>
-                <div>
+                <div data-test="first-input">
                   <span>Link Name:</span>
                   <InputComponent type="text" id="linkName" name="linkName" onChange={(e) => this.onChange(e)} placeholder="e.g. Alphabet" />
                 </div>
                 <div className="divider"></div>
-                <div>
+                <div data-test="second-input">
                   <span>Link URL:</span>
                   <InputComponent type="text" id="linkUrl" name="linkUrl" onChange={(e) => this.onChange(e)} placeholder="e.g. http://abc.xyz" />
                 </div>
                 <div className="divider"></div>
-                <div className="button-container">
+                <div className="button-container" data-test="add-link-button">
                   <ButtonComponent onClick={() => this.addLink()} text="ADD" />
                 </div>
               </div>

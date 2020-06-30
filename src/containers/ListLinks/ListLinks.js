@@ -39,13 +39,33 @@ class ListLinks extends Component {
   upVoteHandler = (i) => {
     const currentListBackup = this.state.currentList;
     currentListBackup[i].points++;
+    currentListBackup[i].date = new Date().toLocaleString();
     const linkListBackup = this.state.linkList;
     linkListBackup.map(item => {
       if (item.linkUrl === this.state.currentList[i].url) {
         item.points++;
+        item.date = new Date().toLocaleString();
       }
       return linkListBackup
     })
+    let newLinkListBackup = linkListBackup.slice();
+    let newCurrentListBackup = currentListBackup.slice();
+    for (let item = 0; item < i; item++){
+      if(linkListBackup[i-item].points === linkListBackup[i-(item+1)].points){
+        if(linkListBackup[i-item].date > linkListBackup[i-(item+1)].date){
+          linkListBackup[i-(item+1)] = newLinkListBackup[i-item];
+          linkListBackup[i-item] = newLinkListBackup[i-(item+1)];
+          newLinkListBackup = linkListBackup.slice();
+        }
+      }
+      if(currentListBackup[i-item].points === currentListBackup[i-(item+1)].points){
+        if(currentListBackup[i-item].date > currentListBackup[i-(item+1)].date){
+          currentListBackup[i-(item+1)] = newCurrentListBackup[i-item];
+          currentListBackup[i-item] = newCurrentListBackup[i-(item+1)];
+          newCurrentListBackup = currentListBackup.slice()
+        }
+      }
+    }
     this.setState({
       linkList: linkListBackup,
       currentLists: currentListBackup
@@ -58,18 +78,21 @@ class ListLinks extends Component {
     if (this.state.currentList[i].points > 0) {
       const currentListBackup = this.state.currentList;
       currentListBackup[i].points--;
-      this.state.linkList.map(item => {
+      currentListBackup[i].date = new Date().toLocaleString();
+      const linkListBackup = this.state.linkList;
+      linkListBackup.map(item => {
         if (item.linkUrl === this.state.currentList[i].url) {
           item.points--;
+          item.date = new Date().toLocaleString();
         }
-        return this.state.linkList
+        return linkListBackup
       })
-      setItem(this.state.linkList);
+      setItem(linkListBackup);
       this.setState({
-        linkList: this.state.linkList,
+        linkList: linkListBackup,
         currentList: currentListBackup
       })
-      this.sortHandler(this.state.linkList, this.state.currentList)
+      this.sortHandler(linkListBackup, currentListBackup)
     }
   }
 
@@ -80,6 +103,7 @@ class ListLinks extends Component {
     const currentList = currentListParameter.sort((a, b) => {
       return b.points - a.points
     });
+    setItem(linkList)
     this.setState({
       linkList: linkList,
       currentList: currentList

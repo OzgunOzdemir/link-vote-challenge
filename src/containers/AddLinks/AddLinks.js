@@ -31,19 +31,22 @@ class AddLinks extends Component {
 
   addLink = () => {
     if (this.state.linkName && this.state.linkUrl) {
+      let currentDate = new Date()
       const linklist = getItem();
       if (!linklist) {
         const data = [{
           linkName: this.state.linkName,
           linkUrl: this.state.linkUrl,
-          points: 0
+          points: 0,
+          date: currentDate.toLocaleString()
         }];
         setItem(data)
       } else {
         const data = {
           linkName: this.state.linkName,
           linkUrl: this.state.linkUrl,
-          points: 0
+          points: 0,
+          date: currentDate.toLocaleString()
         };
         linklist.push(data);
         setItem(linklist)

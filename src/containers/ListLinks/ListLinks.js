@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import './ListLinks.css';
 import { Container, Row, Col, Pagination } from 'react-bootstrap';
 import { getItem, setItem } from '../../services/index.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { SubmitLinkBox, ListItem } from '../../components/App/index.js'
 
 class ListLinks extends Component {
   constructor(props) {
@@ -109,44 +108,13 @@ class ListLinks extends Component {
           <Row>
             <Col md={3}></Col>
             <Col md={6}>
-              <div className="add-link-container" onClick={() => this.handlerLink()}>
-                <div className="plus-container">
-                  <div className="plus-icon-container">
-                    <span className="plus">+</span>
-                  </div>
-                </div>
-                <div className="text-container">
-                  <span className="submit-text">SUBMIT A LINK</span>
-                </div>
-              </div>
+              <SubmitLinkBox text="SUBMIT A LINK" onClick={() => this.handlerLink()} />
               <hr className="hr" />
               {
                 this.state.linkList && this.state.linkList.length > 0 ?
                   this.state.currentList.map((item, i) =>
-                    <div className="link-container" key={i}>
-                      <div className="point-container">
-                        <div className="point-text-container">
-                          <span className="points-number">{item.points}</span>
-                          <span className="points-text">POINTS</span>
-                        </div>
-                      </div>
-                      <div className="link-detail">
-                        <div className="link-name">
-                          <span>{item.linkName}</span>
-                        </div>
-                        <div className="link-url">
-                          ({item.linkUrl})
-                        </div>
-                        <div className="vote-container">
-                          <div className="up-vote" onClick={() => this.upVoteHandler(i)}>
-                            <FontAwesomeIcon icon={faArrowUp} />&nbsp;Up Vote
-                          </div>
-                          <div className="down-vote" onClick={() => this.downVoteHandler(i)}>
-                            <FontAwesomeIcon icon={faArrowDown} />&nbsp;Down Vote
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <ListItem points={item.points} key={i} linkName={item.linkName} linkUrl={item.linkUrl}
+                      upVoteHandler={() => this.upVoteHandler(i)} downVoteHandler={() => this.downVoteHandler(i)} />
                   ) :
                   <div className="empty-list"><span>Your link list is empty</span></div>
               }

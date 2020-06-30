@@ -22,12 +22,15 @@ class ListLinks extends Component {
   }
 
   componentDidMount() {
-    let data = getItem()
+    let data = getItem();
+    let restoreData = null;
     if (data) {
-      data = data.reverse()
+        restoreData = data.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date)
+      });
     }
     this.setState({
-      linkList: data,
+      linkList: restoreData,
       currentList: data && data.length > 4 ? data.slice(0, 5) : data
     })
   }
@@ -48,24 +51,6 @@ class ListLinks extends Component {
       }
       return linkListBackup
     })
-    let newLinkListBackup = linkListBackup.slice();
-    let newCurrentListBackup = currentListBackup.slice();
-    for (let item = 0; item < i; item++){
-      if(linkListBackup[i-item].points === linkListBackup[i-(item+1)].points){
-        if(linkListBackup[i-item].date > linkListBackup[i-(item+1)].date){
-          linkListBackup[i-(item+1)] = newLinkListBackup[i-item];
-          linkListBackup[i-item] = newLinkListBackup[i-(item+1)];
-          newLinkListBackup = linkListBackup.slice();
-        }
-      }
-      if(currentListBackup[i-item].points === currentListBackup[i-(item+1)].points){
-        if(currentListBackup[i-item].date > currentListBackup[i-(item+1)].date){
-          currentListBackup[i-(item+1)] = newCurrentListBackup[i-item];
-          currentListBackup[i-item] = newCurrentListBackup[i-(item+1)];
-          newCurrentListBackup = currentListBackup.slice()
-        }
-      }
-    }
     this.setState({
       linkList: linkListBackup,
       currentLists: currentListBackup
@@ -180,6 +165,7 @@ class ListLinks extends Component {
     const currentList = currentListParameter.sort((a, b) => {
       return a.points - b.points
     });
+    setItem(linkList);
     this.setState({
       linkList: linkList,
       currentList: currentList
@@ -194,6 +180,7 @@ class ListLinks extends Component {
     const currentList = currentListParameter.sort((a, b) => {
       return b.points - a.points
     });
+    setItem(linkList)
     this.setState({
       linkList: linkList,
       currentList: currentList
@@ -211,22 +198,22 @@ class ListLinks extends Component {
             <Col md={3}></Col>
             <Col md={6}>
               {
-                this.state.removed === true ? 
-                <div>
-                <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
-                </div>
-                 : <div className="visibility">
-                 <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
-                 </div>
+                this.state.removed === true ?
+                  <div>
+                    <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
+                  </div>
+                  : <div className="visibility">
+                    <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
+                  </div>
               }
               <SubmitLinkBox text="SUBMIT A LINK" onClick={() => this.handlerLink()} />
               <hr className="hr" />
               {
                 this.state.linkList && this.state.linkList.length > 1 ?
-                <div className="dropdown-container"> 
-                <DropdownComponent mostVoted={() => this.mostVoted(this.state.linkList, this.state.currentList)}
-                 lessVoted={() => this.lessVoted(this.state.linkList, this.state.currentList)}/> 
-                </div> : null
+                  <div className="dropdown-container">
+                    <DropdownComponent mostVoted={() => this.mostVoted(this.state.linkList, this.state.currentList)}
+                      lessVoted={() => this.lessVoted(this.state.linkList, this.state.currentList)} />
+                  </div> : null
               }
               {
                 this.state.linkList && this.state.linkList.length > 0 ?

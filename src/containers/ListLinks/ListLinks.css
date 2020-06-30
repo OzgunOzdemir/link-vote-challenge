@@ -19,3 +19,7 @@
 .page-link {
     color: #cccccc !important;
 }
+
+.dropdown-container {
+    margin: 10px;
+}

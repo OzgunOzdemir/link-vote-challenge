@@ -22,12 +22,15 @@ class ListLinks extends Component {
   }
 
   componentDidMount() {
-    let data = getItem()
+    let data = getItem();
+    let restoreData = null;
     if (data) {
-      data = data.reverse()
+        restoreData = data.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date)
+      });
     }
     this.setState({
-      linkList: data,
+      linkList: restoreData,
       currentList: data && data.length > 4 ? data.slice(0, 5) : data
     })
   }
@@ -39,10 +42,12 @@ class ListLinks extends Component {
   upVoteHandler = (i) => {
     const currentListBackup = this.state.currentList;
     currentListBackup[i].points++;
+    currentListBackup[i].date = new Date().toLocaleString();
     const linkListBackup = this.state.linkList;
     linkListBackup.map(item => {
       if (item.linkUrl === this.state.currentList[i].url) {
         item.points++;
+        item.date = new Date().toLocaleString();
       }
       return linkListBackup
     })
@@ -58,18 +63,21 @@ class ListLinks extends Component {
     if (this.state.currentList[i].points > 0) {
       const currentListBackup = this.state.currentList;
       currentListBackup[i].points--;
-      this.state.linkList.map(item => {
+      currentListBackup[i].date = new Date().toLocaleString();
+      const linkListBackup = this.state.linkList;
+      linkListBackup.map(item => {
         if (item.linkUrl === this.state.currentList[i].url) {
           item.points--;
+          item.date = new Date().toLocaleString();
         }
-        return this.state.linkList
+        return linkListBackup
       })
-      setItem(this.state.linkList);
+      setItem(linkListBackup);
       this.setState({
-        linkList: this.state.linkList,
+        linkList: linkListBackup,
         currentList: currentListBackup
       })
-      this.sortHandler(this.state.linkList, this.state.currentList)
+      this.sortHandler(linkListBackup, currentListBackup)
     }
   }
 
@@ -80,6 +88,7 @@ class ListLinks extends Component {
     const currentList = currentListParameter.sort((a, b) => {
       return b.points - a.points
     });
+    setItem(linkList)
     this.setState({
       linkList: linkList,
       currentList: currentList
@@ -156,6 +165,7 @@ class ListLinks extends Component {
     const currentList = currentListParameter.sort((a, b) => {
       return a.points - b.points
     });
+    setItem(linkList);
     this.setState({
       linkList: linkList,
       currentList: currentList
@@ -170,6 +180,7 @@ class ListLinks extends Component {
     const currentList = currentListParameter.sort((a, b) => {
       return b.points - a.points
     });
+    setItem(linkList)
     this.setState({
       linkList: linkList,
       currentList: currentList
@@ -187,22 +198,22 @@ class ListLinks extends Component {
             <Col md={3}></Col>
             <Col md={6}>
               {
-                this.state.removed === true ? 
-                <div>
-                <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
-                </div>
-                 : <div className="visibility">
-                 <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
-                 </div>
+                this.state.removed === true ?
+                  <div>
+                    <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
+                  </div>
+                  : <div className="visibility">
+                    <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
+                  </div>
               }
               <SubmitLinkBox text="SUBMIT A LINK" onClick={() => this.handlerLink()} />
               <hr className="hr" />
               {
                 this.state.linkList && this.state.linkList.length > 1 ?
-                <div className="dropdown-container"> 
-                <DropdownComponent mostVoted={() => this.mostVoted(this.state.linkList, this.state.currentList)}
-                 lessVoted={() => this.lessVoted(this.state.linkList, this.state.currentList)}/> 
-                </div> : null
+                  <div className="dropdown-container">
+                    <DropdownComponent mostVoted={() => this.mostVoted(this.state.linkList, this.state.currentList)}
+                      lessVoted={() => this.lessVoted(this.state.linkList, this.state.currentList)} />
+                  </div> : null
               }
               {
                 this.state.linkList && this.state.linkList.length > 0 ?

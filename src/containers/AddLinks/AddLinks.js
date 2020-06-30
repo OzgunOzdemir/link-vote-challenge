@@ -12,8 +12,8 @@ class AddLinks extends Component {
     super(props)
 
     this.state = {
-      linkName: null,
-      linkUrl: null,
+      linkName: '',
+      linkUrl: '',
       points: null,
       alert: false
     }
@@ -30,36 +30,40 @@ class AddLinks extends Component {
   }
 
   addLink = () => {
-    const linklist = getItem();
-    if (!linklist) {
-      const data = [{
-        linkName: this.state.linkName,
-        linkUrl: this.state.linkUrl,
-        points: 0
-      }];
-      setItem(data)
-    } else {
-      const data = {
-        linkName: this.state.linkName,
-        linkUrl: this.state.linkUrl,
-        points: 0
-      };
-      linklist.push(data);
-      setItem(linklist)
+    if (this.state.linkName && this.state.linkUrl) {
+      let currentDate = new Date()
+      const linklist = getItem();
+      if (!linklist) {
+        const data = [{
+          linkName: this.state.linkName,
+          linkUrl: this.state.linkUrl,
+          points: 0,
+          date: currentDate.toLocaleString()
+        }];
+        setItem(data)
+      } else {
+        const data = {
+          linkName: this.state.linkName,
+          linkUrl: this.state.linkUrl,
+          points: 0,
+          date: currentDate.toLocaleString()
+        };
+        linklist.push(data);
+        setItem(linklist)
+      }
+      this.setState({
+        alert: true,
+        linkName: '',
+        linkUrl: '',
+      })
+      setTimeout(() => {
+        this.setState({ alert: false })
+      }, 1000)
     }
-    this.setState({
-      alert: true
-    })
-    setTimeout(() => {
-      this.setState({ alert: false })
-    }, 1000)
   }
 
   componentWillUnmount = () => {
     this.setState({
-      linkName: null,
-      linkUrl: null,
-      points: null,
       alert: false
     })
   }
@@ -92,12 +96,12 @@ class AddLinks extends Component {
                 </div>
                 <div data-test="first-input">
                   <span>Link Name:</span>
-                  <InputComponent type="text" id="linkName" name="linkName" onChange={(e) => this.onChange(e)} placeholder="e.g. Alphabet" />
+                  <InputComponent type="text" id="linkName" name="linkName" value={this.state.linkName} onChange={(e) => this.onChange(e)} placeholder="e.g. Alphabet" />
                 </div>
                 <div className="divider"></div>
                 <div data-test="second-input">
                   <span>Link URL:</span>
-                  <InputComponent type="text" id="linkUrl" name="linkUrl" onChange={(e) => this.onChange(e)} placeholder="e.g. http://abc.xyz" />
+                  <InputComponent type="text" id="linkUrl" name="linkUrl" value={this.state.linkUrl}  onChange={(e) => this.onChange(e)} placeholder="e.g. http://abc.xyz" />
                 </div>
                 <div className="divider"></div>
                 <div className="button-container" data-test="add-link-button">

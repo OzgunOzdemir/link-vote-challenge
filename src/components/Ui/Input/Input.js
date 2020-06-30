@@ -6,11 +6,12 @@ const InputComponent = ({
     id,
     name,
     onChange,
-    placeholder
+    placeholder,
+    value
 }) => {
     return(
         <React.Fragment>
-            <input type={type} id={id} name={name} onChange={onChange} placeholder={placeholder} />
+            <input type={type} id={id} name={name} onChange={onChange} placeholder={placeholder} value={value} />
         </React.Fragment>   
     );
 }

@@ -23,3 +23,7 @@
 .dropdown-container {
     margin: 10px;
 }
+
+.visibility {
+    visibility: hidden;
+}

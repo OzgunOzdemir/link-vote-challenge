@@ -31,3 +31,7 @@
     display: flex;
     justify-content: flex-end
 }
+
+.visibility {
+    visibility: hidden;
+}

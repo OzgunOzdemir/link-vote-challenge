@@ -37,30 +37,37 @@ class ListLinks extends Component {
   }
 
   upVoteHandler = (i) => {
-    this.state.currentList[i].points++;
-    this.state.linkList.map(item => {
+    const currentListBackup = this.state.currentList;
+    currentListBackup[i].points++;
+    const linkListBackup = this.state.linkList;
+    linkListBackup.map(item => {
       if (item.linkUrl === this.state.currentList[i].url) {
         item.points++;
       }
+      return linkListBackup
     })
     this.setState({
-      linkList: this.state.linkList
+      linkList: linkListBackup,
+      currentLists: currentListBackup
     })
-    setItem(this.state.linkList);
-    this.sortHandler(this.state.linkList, this.state.currentList)
+    setItem(linkListBackup);
+    this.sortHandler(linkListBackup, currentListBackup)
   }
 
   downVoteHandler = (i) => {
     if (this.state.currentList[i].points > 0) {
-      this.state.currentList[i].points--;
+      const currentListBackup = this.state.currentList;
+      currentListBackup[i].points--;
       this.state.linkList.map(item => {
         if (item.linkUrl === this.state.currentList[i].url) {
           item.points--;
         }
+        return this.state.linkList
       })
       setItem(this.state.linkList);
       this.setState({
-        linkList: this.state.linkList
+        linkList: this.state.linkList,
+        currentList: currentListBackup
       })
       this.sortHandler(this.state.linkList, this.state.currentList)
     }
@@ -107,10 +114,10 @@ class ListLinks extends Component {
     });
   }
 
-  openModel = (linkName) => {
+  openModel = (linkNameParameter) => {
     this.setState({
       openModal: true,
-      linkName: linkName
+      linkName: linkNameParameter
     })
   }
 

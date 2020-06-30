@@ -3,7 +3,7 @@ import './ListLinks.css';
 import { Container, Row, Col, Pagination } from 'react-bootstrap';
 import { getItem, setItem } from '../../services/index.js';
 import { SubmitLinkBox, ListItem } from '../../components/App/index.js';
-import { DeleteListItemModal } from '../../Modal/index.js'
+import { DeleteListItemModal } from '../../modal/index.js'
 
 class ListLinks extends Component {
   constructor(props) {

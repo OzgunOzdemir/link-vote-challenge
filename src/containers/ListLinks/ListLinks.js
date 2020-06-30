@@ -180,7 +180,13 @@ class ListLinks extends Component {
             <Col md={3}></Col>
             <Col md={6}>
               {
-                this.state.removed === true ? <AlertComponent linkName={this.state.linkName} linkStatus="removed" /> : null
+                this.state.removed === true ? 
+                <div>
+                <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
+                </div>
+                 : <div className="visibility">
+                 <AlertComponent linkName={this.state.linkName} linkStatus="removed" />
+                 </div>
               }
               <SubmitLinkBox text="SUBMIT A LINK" onClick={() => this.handlerLink()} />
               <hr className="hr" />

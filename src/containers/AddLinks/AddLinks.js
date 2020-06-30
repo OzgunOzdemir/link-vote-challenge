@@ -47,23 +47,23 @@ class AddLinks extends Component {
       linklist.push(data);
       setItem(linklist)
     }
-    this.setState({ 
+    this.setState({
       alert: true
-     })
+    })
     setTimeout(() => {
       this.setState({ alert: false })
     }, 1000)
   }
 
   componentWillUnmount = () => {
-    this.setState({ 
+    this.setState({
       linkName: null,
       linkUrl: null,
       points: null,
       alert: false
     })
   }
-  
+
 
   render() {
     return (
@@ -74,14 +74,16 @@ class AddLinks extends Component {
             <Col md={6}>
               {
                 this.state.alert === true ?
-                  <div className="alert">
+                  <div>
                     <AlertComponent linkName={this.state.linkName} linkStatus="added." />
                   </div>
-                  : null
+                  : <div className="visibility">
+                    <AlertComponent linkName={this.state.linkName} linkStatus="added." />
+                  </div>
               }
               <div className="back-link">
                 <span className="backlink-text" onClick={() => this.handlerBackLink()}>
-                <FontAwesomeIcon icon={faArrowLeft} />&nbsp;Return to List
+                  <FontAwesomeIcon icon={faArrowLeft} />&nbsp;Return to List
                 </span>
               </div>
               <div className="form-container">

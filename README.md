@@ -13,6 +13,12 @@ Run the following command for web
 npm run start
 ```
 
+## How to test
+Run the following command for build
+```
+npm run test
+```
+
 ## How to build
 Run the following command for build
 ```

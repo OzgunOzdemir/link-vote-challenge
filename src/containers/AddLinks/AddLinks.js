@@ -52,12 +52,14 @@ class AddLinks extends Component {
         setItem(linklist)
       }
       this.setState({
-        alert: true,
-        linkName: '',
-        linkUrl: '',
+        alert: true
       })
       setTimeout(() => {
-        this.setState({ alert: false })
+        this.setState({ 
+          alert: false,
+          linkName: '',
+          linkUrl: ''
+         })
       }, 1000)
     }
   }

@@ -14,7 +14,7 @@ npm run start
 ```
 
 ## How to test
-Run the following command for build
+Run the following command for test
 ```
 npm run test
 ```

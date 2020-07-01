@@ -5,7 +5,7 @@ import { getItem, setItem } from '../../services/index.js';
 import { SubmitLinkBox, ListItem } from '../../components/App/index.js';
 import { DropdownComponent } from '../../components/Ui/index.js';
 import { AlertComponent } from '../../components/Ui/index.js'
-import { DeleteListItemModal } from '../../modal/index.js'
+import { DeleteListItemModal } from '../../Modal/index.js'
 
 class ListLinks extends Component {
   constructor(props) {
